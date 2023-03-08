@@ -1,0 +1,19 @@
+.mainDOM {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  &__watermark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    height: 100%;
+    // width: 100%;
+    z-index: 1000;
+    &__list{
+      display: flex;
+    flex-wrap: nowrap;
+    }
+  }
+}
