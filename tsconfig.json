@@ -13,7 +13,7 @@
     "sourceMap": true,
     "paths": {
       "ng-watermark": [
-        "dist/ng-watermark"
+        "projects/ng-watermark"
       ]
     },
     "declaration": false,

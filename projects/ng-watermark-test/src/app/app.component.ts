@@ -10,9 +10,8 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {}
   @ViewChild('titles') titles: any;
   config: tConfig = {
-    title: 'ng-water',
     type: 'canvas',
-    font_size: '2rem',
+    // font_size: '2rem',
     // isCompleteWidth: false,
     opacity: 0.1,
     x_space: '50px',

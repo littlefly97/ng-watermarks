@@ -14,7 +14,6 @@ export enum type {
   images,
 }
 export interface tConfig {
-  title: string;
   type?: 'canvas' | 'DOM' | 'images';
   angle?: number; //倾斜角度
   x_space?: string | number; //水印之间的X轴间距
@@ -27,6 +26,11 @@ export interface tConfig {
   cols?: number; //水印的列数，如果为空或者为0，则根据宽度自动适配
   width?: string; //水印的宽度，如果为空，则自动计算，eg:100px,1rem,1vh
   height?: string; //水印的高度，如果为空，则自动计算
+}
+
+export interface tDefConfig extends tConfig {
+  rowsArray?: any[];
+  colsArray?: any[];
 }
 
 export interface tPropsUnit {
@@ -46,7 +50,7 @@ export interface tPropsUnit {
       </div>
       <div class="mainDOM__watermark" #watermarkDOM>
         <ng-container>
-          <div class="mainDOM__watermark__list" *ngFor="let item of counter(defaultConfig.rows)">
+          <div class="mainDOM__watermark__list" *ngFor="let item of defaultConfig.rowsArray">
             <span
               [ngStyle]="{
                 transform: 'rotate(-' + this.defaultConfig.angle + 'deg)',
@@ -61,7 +65,7 @@ export interface tPropsUnit {
                 flex: '0 0 10%'
               }"
               #waterItem
-              *ngFor="let item of counter(defaultConfig.cols)"
+              *ngFor="let item of defaultConfig.colsArray"
             >
               <ng-container
                 *ngIf="isTemplateRef; else titleString"
@@ -84,20 +88,17 @@ export interface tPropsUnit {
 })
 export class NgWatermarkComponent implements OnInit {
   constructor(private viewContainer: ViewContainerRef, private rd2: Renderer2) {}
-  @Input() config: tConfig = {
-    title: '',
-  };
+  @Input() config: tConfig = {};
   protected isTemplateRef: boolean = false;
   protected titleTemplate: TemplateRef<void> | null = null;
   @Input() title: string | TemplateRef<void> | null = null;
-  defaultConfig: tConfig = {
-    title: '',
+  defaultConfig: tDefConfig = {
     type: 'DOM',
     angle: 20,
     opacity: 0.2,
     font_size: '1rem',
-    rows: 1,
-    cols: 1,
+    rowsArray: [{}],
+    colsArray: [{}],
   };
   propsUnit: tPropsUnit = {
     x_space: {
@@ -144,29 +145,30 @@ export class NgWatermarkComponent implements OnInit {
     };
   }
 
-  counter(i: number | undefined) {
-    return typeof i === 'number' && !isNaN(i) ? new Array(i) : [];
+  counter(i: number | undefined): any[] {
+    return typeof i === 'number' && !isNaN(i) ? new Array(i).fill({}) : [];
   }
 
+  // ngAfterViewInit(): void {
+  //   this.width = `${this.getContentLength().width}px`;
+  //   this.height = `${this.getContentLength().height}px`;
+  //   const margin = getComputedStyle(this.content.nativeElement.lastChild).margin;
+  //   this.rd2.setStyle(this.watermarkDOM.nativeElement, 'margin', margin);
+  //   this.rd2.setStyle(this.watermarkDOM.nativeElement, 'margin-top', 0);
 
-  ngAfterViewInit(): void {
-    this.width = `${this.getContentLength().width}px`;
-    this.height = `${this.getContentLength().height}px`;
-    const margin = getComputedStyle(this.content.nativeElement.lastChild).margin;
-    this.rd2.setStyle(this.watermarkDOM.nativeElement, 'margin', margin);
-    this.rd2.setStyle(this.watermarkDOM.nativeElement, 'margin-top', 0);
-
-    const [waterItemWidth, waterItemHeight] = [
-      this.waterItem?.nativeElement?.offsetWidth.toFixed(3).slice(0, -1),
-      this.waterItem?.nativeElement?.offsetHeight.toFixed(3).slice(0, -1),
-    ];
-    this.defaultConfig.cols =
-      this.config.cols ?? Number((this.getContentLength().width / waterItemWidth).toFixed(1).slice(0, -1));
-    this.defaultConfig.rows =
-      this.config.rows ?? Number((this.getContentLength().height / waterItemHeight).toFixed(1).slice(0, -1));
-    this.waterLength = this.defaultConfig.rows * this.defaultConfig.cols;
-    console.log(this.defaultConfig);
-  }
+  //   const [waterItemWidth, waterItemHeight] = [
+  //     this.waterItem?.nativeElement?.offsetWidth.toFixed(3).slice(0, -1),
+  //     this.waterItem?.nativeElement?.offsetHeight.toFixed(3).slice(0, -1),
+  //   ];
+  //   this.defaultConfig.cols =
+  //     this.config.cols ?? Number((this.getContentLength().width / waterItemWidth).toFixed(1).slice(0, -1));
+  //   this.defaultConfig.rows =
+  //     this.config.rows ?? Number((this.getContentLength().height / waterItemHeight).toFixed(1).slice(0, -1));
+  //   this.waterLength = this.defaultConfig.rows * this.defaultConfig.cols;
+  //   this.defaultConfig.colsArray = this.counter(this.defaultConfig.cols)
+  //   this.defaultConfig.rowsArray = this.counter(this.defaultConfig.rows)
+  //   console.log(this.defaultConfig)
+  // }
 
   getContentLength() {
     let height = this.content.nativeElement.children[0]?.offsetHeight ?? null;
