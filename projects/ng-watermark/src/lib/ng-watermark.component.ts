@@ -26,6 +26,8 @@ export interface tConfig {
   cols?: number; //水印的列数，如果为空或者为0，则根据宽度自动适配
   width?: string; //水印的宽度，如果为空，则自动计算，eg:100px,1rem,1vh
   height?: string; //水印的高度，如果为空，则自动计算
+  autoDetectWatermarkRemoval?: Boolean; //自动检测水印的删除
+  zIndex?: number; //水印的层级
 }
 
 export interface tDefConfig extends tConfig {

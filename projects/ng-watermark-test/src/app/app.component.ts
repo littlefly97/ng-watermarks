@@ -14,7 +14,8 @@ export class AppComponent implements OnInit {
     // font_size: '2rem',
     // isCompleteWidth: false,
     opacity: 0.1,
-    x_space: '50px',
+    x_space: 50,
+    y_space: 50,
   };
   title = 'ng-watermark-test';
 
