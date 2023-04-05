@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build ng-watermark --configuration production",
+    "publish":"yarn publish dist/ng-watermark/ --ignore-scripts",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "cz": "cz"
