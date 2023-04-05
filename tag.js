@@ -116,7 +116,8 @@ async function main() {
       await createZip('dist/ng-watermark', `dist/ng-watermark/${newTag}.zip`);
       console.log(`ZIP archive created: dist/ng-watermark/${newTag}.zip`);
 
-      await executeCommand(`tar -czvf dist/ng-watermark/${newTag}.tar.gz -C dist/ng-watermark .`);
+      //   await executeCommand(`tar -czvf dist/ng-watermark/${newTag}.tar.gz -C dist/ng-watermark .`);
+      await executeCommand(`git archive -o dist/ng-watermark/${newTag}.tar.gz HEAD`);
       console.log(`TAR.GZ archive created: dist/ng-watermark/${newTag}.tar.gz`);
 
       console.log('Pushing the new tag to GitHub...');
