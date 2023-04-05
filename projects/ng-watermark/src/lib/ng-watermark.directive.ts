@@ -18,9 +18,7 @@ import { Utils } from './utils';
 export class NgWatermarkDirective implements OnInit, AfterViewInit, OnDestroy {
   @HostBinding('style.position') hostPosition = 'relative';
   @HostBinding('style.height') hostHeight = '100%';
-  constructor(private el: ElementRef, private renderer: Renderer2) {
-    // console.log(el);
-  }
+  constructor(private el: ElementRef, private renderer: Renderer2) {}
   @Input() config: tConfig = {};
 
   @Input('title') title: string | TemplateRef<any> | null = null;
@@ -99,6 +97,7 @@ export class NgWatermarkDirective implements OnInit, AfterViewInit, OnDestroy {
     this.renderer.setStyle(gridContainer, 'grid-gap', `${this.getYSpacing()}px ${this.getXSpacing()}px`);
     this.renderer.setStyle(gridContainer, 'position', 'absolute');
     this.renderer.setStyle(gridContainer, 'width', '100%');
+    this.renderer.setStyle(gridContainer, 'height', '100%');
     this.renderer.setStyle(gridContainer, 'overflow', 'hidden');
     this.renderer.setStyle(gridContainer, 'z-index', this.config.zIndex);
     this.renderer.setStyle(gridContainer, 'pointer-events', `none`);

@@ -32,6 +32,7 @@
             "karmaConfig": "projects/ng-watermark/karma.conf.js"
           }
         }
+        
       }
     },
     "ng-watermark-test": {
