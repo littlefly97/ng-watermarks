@@ -11,7 +11,7 @@ function executeCommand(command) {
     exec(command, (error, stdout) => {
       if (error) {
         reject(error);
-        process.exit(1);
+        return;
       }
       resolve(stdout.trim());
     });
